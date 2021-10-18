@@ -1,8 +1,8 @@
 package brainfuck;
 
-import brainfuck.actions.Action;
 
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 /**
  * Простой интерпретатор языка Brainfuck
@@ -44,8 +44,8 @@ public class Context {
     public void interpret() {
         while (characterIndex < inputLine.length()) {
             char ch = inputLine.charAt(characterIndex);
-            Action action = actionFactory.getAction(ch);
-            action.execute(this);
+            Consumer<Context> action = actionFactory.getAction(ch);
+            action.accept(this);
             characterIndex++;
         }
     }

@@ -1,8 +1,6 @@
 package brainfuck;
 
-import brainfuck.Context;
 import brainfuck.exceptions.WrongInputCharacterException;
-import brainfuck.actions.*;
 
 import java.util.function.Consumer;
 
@@ -13,27 +11,10 @@ import java.util.function.Consumer;
  * @author Bogdan
  */
 public class ActionFactory {
-    //СПОСОБ 1
-    //экземпляры классов, реализующих интерфейс
-    public Action getAction(char ch) {
-        Action action = switch (ch) {
-            case '>' -> new NextCellAction();
-            case '<' -> new PrevCellAction();
-            case '+' -> new IncreaseAction();
-            case '-' -> new ReduceAction();
-            case '.' -> new ReadAction();
-            case ',' -> new WriteAction();
-            case '[' -> new CycleBeginAction();
-            case ']' -> new CycleEndAction();
-            default -> throw new WrongInputCharacterException(ch);
-        };
-        return action;
-    }
-
     //СПОСОБ 2
     //реализация на лямбда-выражениях
     //в этом случае можно удалить всю иерархию Action
-    public Consumer<Context> getActionWithLambdas(char ch) {
+    public Consumer<Context> getAction(char ch) {
         Consumer<Context> action = switch (ch) {
             case '>' -> ctx -> {
                 if (ctx.hasNextCell()) {
