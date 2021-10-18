@@ -1,8 +1,8 @@
-package brainfuck.states;
+package brainfuck.actions;
 
 import brainfuck.Context;
 
-public class CycleBeginState implements State {
+public class CycleBeginAction implements Action {
     @Override
     public void execute(Context context) {
         context.processCycleBegin();

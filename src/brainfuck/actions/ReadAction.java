@@ -1,8 +1,8 @@
-package brainfuck.states;
+package brainfuck.actions;
 
 import brainfuck.Context;
 
-public class ReadState implements State {
+public class ReadAction implements Action {
 
     @Override
     public void execute(Context context) {

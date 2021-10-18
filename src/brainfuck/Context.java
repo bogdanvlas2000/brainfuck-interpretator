@@ -1,66 +1,56 @@
 package brainfuck;
 
-import brainfuck.states.StartState;
-import brainfuck.states.State;
-import brainfuck.states.factory.StateFactory;
+import brainfuck.actions.Action;
 
 import java.util.Scanner;
 
+/**
+ * Простой интерпретатор языка Brainfuck
+ *
+ * @author Bogdan
+ */
+
 public class Context {
-    private String commandLine;
+    private String inputLine;
     private StringBuffer outputLine;
-    private int characterIndex;
     private byte[] memory;
+
+    private ActionFactory actionFactory;
+
+    private int characterIndex;
     private int memoryIndex;
-    private StateFactory stateFactory;
-    private State currentState;
-    private int cyclesCounter;
+    private int cyclesIndex;
 
 
     //default constructor
 
     public Context() {
         this.memory = new byte[30_000];
-        this.stateFactory = new StateFactory();
-        this.currentState = new StartState();
-        this.commandLine = "";
+        this.actionFactory = new ActionFactory();
+        this.inputLine = "";
         this.outputLine = new StringBuffer();
     }
 
-    // getters and setters
-    public String getCommandLine() {
-        return commandLine;
+    public Context(String inputLine) {
+        this();
+        this.inputLine = inputLine;
     }
-
-    public void setCommandLine(String commandLine) {
-        this.commandLine = commandLine;
-    }
-
-    public State getCurrentState() {
-        return currentState;
-    }
-
-    public void setCurrentState(State currentState) {
-        this.currentState = currentState;
-    }
-
 
     public String getOutputLine() {
         return outputLine.toString();
     }
 
-    // service methods
 
     public void interpret() {
-        while (characterIndex < commandLine.length()) {
-            char ch = commandLine.charAt(characterIndex);
-            currentState = stateFactory.getState(ch);
-//            реализация на лямбда-выражениях
-//            currentState = stateFactory.getStateWithLambdas(ch);
-            currentState.execute(this);
+        while (characterIndex < inputLine.length()) {
+            char ch = inputLine.charAt(characterIndex);
+            Action action = actionFactory.getAction(ch);
+            action.execute(this);
             characterIndex++;
         }
     }
+
+    // service methods
 
     public boolean hasNextCell() {
         return memoryIndex < memory.length - 1;
@@ -105,11 +95,11 @@ public class Context {
     public void processCycleBegin() {
         if (memory[memoryIndex] == 0) {
             characterIndex++;
-            while (cyclesCounter > 0 || commandLine.charAt(characterIndex) != ']') {
-                if (commandLine.charAt(characterIndex) == '[')
-                    cyclesCounter++;
-                else if (commandLine.charAt(characterIndex) == ']')
-                    cyclesCounter--;
+            while (cyclesIndex > 0 || inputLine.charAt(characterIndex) != ']') {
+                if (inputLine.charAt(characterIndex) == '[')
+                    cyclesIndex++;
+                else if (inputLine.charAt(characterIndex) == ']')
+                    cyclesIndex--;
                 characterIndex++;
             }
         }
@@ -118,11 +108,11 @@ public class Context {
     public void processCycleEnd() {
         if (memory[memoryIndex] != 0) {
             characterIndex--;
-            while (cyclesCounter > 0 || commandLine.charAt(characterIndex) != '[') {
-                if (commandLine.charAt(characterIndex) == ']')
-                    cyclesCounter++;
-                else if (commandLine.charAt(characterIndex) == '[')
-                    cyclesCounter--;
+            while (cyclesIndex > 0 || inputLine.charAt(characterIndex) != '[') {
+                if (inputLine.charAt(characterIndex) == ']')
+                    cyclesIndex++;
+                else if (inputLine.charAt(characterIndex) == '[')
+                    cyclesIndex--;
                 characterIndex--;
             }
             characterIndex--;

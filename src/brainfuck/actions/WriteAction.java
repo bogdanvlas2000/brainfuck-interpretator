@@ -1,8 +1,8 @@
-package brainfuck.states;
+package brainfuck.actions;
 
 import brainfuck.Context;
 
-public class WriteState implements State {
+public class WriteAction implements Action {
 
 
     @Override

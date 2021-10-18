@@ -1,7 +1,7 @@
-package brainfuck.states;
+package brainfuck.actions;
 
 import brainfuck.Context;
 
-public interface State {
+public interface Action {
     void execute(Context context);
 }
