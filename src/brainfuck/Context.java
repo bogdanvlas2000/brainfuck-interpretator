@@ -52,22 +52,18 @@ public class Context {
 
     // service methods
 
-    public boolean hasNextCell() {
-        return memoryIndex < memory.length - 1;
-    }
-
-    public boolean hasPrevCell() {
-        return memoryIndex > 0;
-    }
-
     // >
     public void nextCell() {
-        memoryIndex++;
+        if (memoryIndex < memory.length - 1) {
+            memoryIndex++;
+        }
     }
 
     // <
     public void prevCell() {
-        memoryIndex--;
+        if (memoryIndex > 0) {
+            memoryIndex--;
+        }
     }
 
     // +
@@ -105,6 +101,7 @@ public class Context {
         }
     }
 
+    // ]
     public void processCycleEnd() {
         if (memory[memoryIndex] != 0) {
             characterIndex--;

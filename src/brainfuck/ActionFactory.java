@@ -16,16 +16,8 @@ public class ActionFactory {
     //в этом случае можно удалить всю иерархию Action
     public Consumer<Context> getAction(char ch) {
         Consumer<Context> action = switch (ch) {
-            case '>' -> ctx -> {
-                if (ctx.hasNextCell()) {
-                    ctx.nextCell();
-                }
-            };
-            case '<' -> ctx -> {
-                if (ctx.hasPrevCell()) {
-                    ctx.prevCell();
-                }
-            };
+            case '>' -> ctx -> ctx.nextCell();
+            case '<' -> ctx -> ctx.prevCell();
             case '+' -> ctx -> ctx.increase();
             case '-' -> ctx -> ctx.reduce();
             case '.' -> ctx -> ctx.read();
