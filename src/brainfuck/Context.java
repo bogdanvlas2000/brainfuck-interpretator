@@ -36,18 +36,14 @@ public class Context {
         this.inputLine = inputLine;
     }
 
-    public String getOutputLine() {
-        return outputLine.toString();
-    }
-
-
-    public void interpret() {
+    public String interpret() {
         while (characterIndex < inputLine.length()) {
             char ch = inputLine.charAt(characterIndex);
             Consumer<Context> action = actionFactory.getAction(ch);
             action.accept(this);
             characterIndex++;
         }
+        return outputLine.toString();
     }
 
     // service methods

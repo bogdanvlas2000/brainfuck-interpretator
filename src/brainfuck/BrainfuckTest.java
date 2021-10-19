@@ -8,8 +8,7 @@ public class BrainfuckTest {
         // 4 + 2
         String commandLine = "++++>++[<<+>-]<.";
         context = new Context(commandLine);
-        context.interpret();
-        String resultLine = context.getOutputLine();
+        String resultLine = context.interpret();
         return resultLine.equals("6");
     }
 
@@ -19,8 +18,7 @@ public class BrainfuckTest {
         // 4 * 2
         String commandLine = "++++>++<[->[->+>+<<]>[-<+>]<<]>>>.";
         context = new Context(commandLine);
-        context.interpret();
-        String resultLine = context.getOutputLine();
+        String resultLine = context.interpret();
         return resultLine.equals("8");
     }
 
